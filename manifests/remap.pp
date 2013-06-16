@@ -21,6 +21,7 @@ define keyremap4macbook::remap(
   $identifier = $title,
   $ensure = 'present'
 ) {
+  include keyremap4macbook::config
 
   case $ensure {
     'present': { $enable = 'enable' }
@@ -31,6 +32,7 @@ define keyremap4macbook::remap(
   }
 
   keyremap4macbook::cli { "keyremap4macbook::remap::${enable} ${identifier}":
-    command => "${enable} remap.${identifier}"
+    command => "${enable} remap.${identifier}",
+    unless => "${keyremap4macbook::config::cli} export | grep '${identifier} 1'"
   }
 }

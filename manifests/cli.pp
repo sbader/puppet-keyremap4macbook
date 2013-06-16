@@ -12,12 +12,14 @@
 #     commandline => 'enable remap.shiftL2commandL'
 #   }
 define keyremap4macbook::cli(
-  $command = $title
+  $command = $title,
+  $unless = undef
 ) {
   include keyremap4macbook::config
 
   exec { "keyremap4macbook::cli::${command}":
     command => "${keyremap4macbook::config::cli} ${command}",
+    unless => $unless,
     require => Package['KeyRemap4MacBook']
   }
 }

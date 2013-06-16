@@ -19,8 +19,10 @@ define keyremap4macbook::set(
   $value,
   $identifier = $title
 ) {
+  include keyremap4macbook::config
 
   keyremap4macbook::cli { "keyremap4macbook::set::${identifier}=${value}":
-    command => "set ${identifier} ${value}"
+    command => "set ${identifier} ${value}",
+    unless => "${keyremap4macbook::config::cli} export | grep '${identifier} ${value}'"
   }
 }
